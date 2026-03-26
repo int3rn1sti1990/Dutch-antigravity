@@ -21,7 +21,7 @@
 
             <div class="stats-card glass">
                 <div class="stat-item">
-                    <span class="stat-value">A1</span>
+                    <span class="stat-value">A2</span>
                     <span class="stat-label">Current Level</span>
                 </div>
                 <div class="stat-item">
@@ -59,7 +59,7 @@
             </header>
 
             <div class="content-area">
-                <div class="instruction">Listen carefully to the phrase</div>
+                <div class="instruction" id="ll-instruction">Listen carefully to the phrase</div>
 
                 <div class="visual-cue-container glass" id="visual-cue-container">
                     <!-- Blur overlay strictly controls Audio-First logic -->
@@ -75,8 +75,13 @@
                         ▶ Play Audio
                     </button>
 
-                    <button class="primary-btn hidden" id="ll-next-btn" onclick="app.goHome()">
-                        Complete Task
+                    <button class="primary-btn hidden" id="ll-next-btn" onclick="app.nextListeningTask()">
+                        Next Task
+                    </button>
+                    <!-- Home button for when all tasks are done -->
+                    <button class="secondary-btn hidden" id="ll-home-btn" onclick="app.goHome()"
+                        style="margin-top: 15px;">
+                        Return Home
                     </button>
                 </div>
             </div>
@@ -90,11 +95,12 @@
             </header>
 
             <div class="content-area">
-                <div class="instruction">Listen, then hold the mic to speak</div>
+                <div class="instruction" id="ram-instruction">Listen, then hold the mic to speak</div>
 
                 <div class="target-card glass">
                     <h3 class="target-phrase" id="ram-target-phrase">Ik ga morgen naar het strand.</h3>
                     <p class="translation" id="ram-translation">I am going to the beach tomorrow.</p>
+                    <p class="grammar-hint" id="ram-grammar-hint" style="margin-top:10px; font-size:13px;"></p>
                 </div>
 
                 <!-- Area for dynamic score and grammar feedback -->
@@ -102,7 +108,7 @@
                     <!-- Feedback populates here -->
                 </div>
 
-                <div class="controls">
+                <div class="controls" id="ram-controls">
                     <button class="icon-btn" onclick="app.playRepeatAudio()">🔊</button>
                     <!-- Hold to speak interactions for Desktop and Mobile (touch) -->
                     <button class="mic-btn" id="ram-mic-btn" onmousedown="audioEngine.startRecording()"
@@ -110,6 +116,17 @@
                         ontouchstart="audioEngine.startRecording(); event.preventDefault();"
                         ontouchend="audioEngine.stopRecording(); event.preventDefault();">
                         🎤
+                    </button>
+                </div>
+
+                <!-- Area for progressing to next task -->
+                <div class="controls-area hidden" id="ram-next-area"
+                    style="margin-bottom: 30px; display: flex; flex-direction:column; gap:10px;">
+                    <button class="primary-btn" id="ram-next-btn" onclick="app.nextRepeatTask()">
+                        Next Challenge
+                    </button>
+                    <button class="secondary-btn" id="ram-home-btn" onclick="app.goHome()">
+                        Home
                     </button>
                 </div>
             </div>

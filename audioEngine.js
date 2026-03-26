@@ -90,9 +90,10 @@ const audioEngine = {
     },
 
     processRecording(transcript) {
-        const target = app.state.ramTask.dutch;
-        // Evaluate the output utilizing the Grammar Engine logic
-        const result = grammarEngine.processSpokenSentence(transcript, target, 'A1');
+        // Evaluate the output utilizing the Grammar Engine logic with progressive difficulty scaling
+        const task = app.state.repeatTasks[app.state.ramIndex];
+        const target = task.dutch;
+        const result = grammarEngine.processSpokenSentence(transcript, target, task.level);
         app.showFeedback(result);
     }
 };
