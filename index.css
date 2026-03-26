@@ -1,0 +1,446 @@
+:root {
+    --primary: #5e60ce;
+    --primary-light: #7400b8;
+    --secondary: #4ea8de;
+    --background: #0f172a;
+    --surface: rgba(255, 255, 255, 0.05);
+    --surface-border: rgba(255, 255, 255, 0.1);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --success: #10b981;
+    --danger: #ef4444;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Outfit', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--background);
+    /* Vibrant modern blobs background */
+    background-image: radial-gradient(circle at 15% 50%, rgba(94, 96, 206, 0.15), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(78, 168, 222, 0.15), transparent 25%);
+    color: var(--text-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Device simulation container */
+#app-container {
+    width: 100%;
+    max-width: 450px;
+    height: 100vh;
+    height: 100dvh;
+    /* Native safe area */
+    background: #0f172a;
+    position: relative;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+/* Glassmorphism token */
+.glass {
+    background: var(--surface);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--surface-border);
+    border-radius: 20px;
+}
+
+/* Screen Transitions */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s;
+    opacity: 0;
+    pointer-events: none;
+    overflow-y: auto;
+}
+
+.screen.active {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Typography elements */
+header {
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #4ea8de, #5e60ce);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+h3 {
+    font-size: 18px;
+}
+
+p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.section-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.screen-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 28px;
+    cursor: pointer;
+    padding: 5px 10px 5px 0;
+}
+
+/* Dashboard UI */
+.stats-card {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-value {
+    display: block;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary-light);
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.task-card {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.task-card:hover,
+.task-card:active {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-4px);
+    border-color: var(--primary);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.task-icon {
+    font-size: 28px;
+    background: rgba(94, 96, 206, 0.2);
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.task-arrow {
+    margin-left: auto;
+    color: var(--primary);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Listening Lab UI */
+.content-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    margin-top: 20px;
+}
+
+.instruction {
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    font-size: 18px;
+    text-align: center;
+}
+
+.visual-cue-container {
+    width: 100%;
+    padding: 40px 20px;
+    text-align: center;
+    position: relative;
+    margin-bottom: 50px;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.blurred-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    transition: opacity 0.5s ease;
+}
+
+.blurred-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.listening-text {
+    color: var(--secondary);
+    font-size: 18px;
+    font-weight: 600;
+    animation: pulse 1.5s infinite;
+}
+
+.target-phrase {
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: white;
+}
+
+.grammar-hint {
+    color: var(--secondary);
+    font-size: 15px;
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+.controls-area {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.play-btn {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    border: none;
+    padding: 18px 50px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(94, 96, 206, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.play-btn:active {
+    transform: scale(0.95);
+}
+
+.play-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, var(--success), #059669);
+    color: white;
+    border: none;
+    padding: 18px 50px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Repeat After Me UI */
+.target-card {
+    width: 100%;
+    padding: 35px 20px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.translation {
+    margin-top: 12px;
+    font-style: italic;
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+
+.feedback-area {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.feedback-box {
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 15px;
+    border-left: 4px solid;
+    animation: slideIn 0.3s ease;
+}
+
+.feedback-success {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: var(--success);
+    color: #d1fae5;
+}
+
+.feedback-error {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: var(--danger);
+    color: #fee2e2;
+}
+
+.feedback-score {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 40px;
+    margin-top: 10px;
+}
+
+.icon-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.icon-btn:active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.mic-btn {
+    width: 86px;
+    height: 86px;
+    border-radius: 43px;
+    background: linear-gradient(135deg, var(--danger), #b91c1c);
+    border: none;
+    color: white;
+    font-size: 36px;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.mic-btn:active,
+.mic-btn.recording {
+    transform: scale(0.9);
+    box-shadow: 0 5px 15px rgba(239, 68, 68, 0.6);
+    animation: pulseMic 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes pulseMic {
+    0% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 20px rgba(239, 68, 68, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

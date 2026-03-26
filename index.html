@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dutch Mastery</title>
+    <!-- Use Outfit font for a premium, modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div id="app-container">
+        <!-- Dashboard Screen -->
+        <div id="dashboard" class="screen active">
+            <header>
+                <h1>Hallo! 👋</h1>
+                <p>Ready for your Dutch lesson?</p>
+            </header>
+
+            <div class="stats-card glass">
+                <div class="stat-item">
+                    <span class="stat-value">A1</span>
+                    <span class="stat-label">Current Level</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">12</span>
+                    <span class="stat-label">Tasks Done</span>
+                </div>
+            </div>
+
+            <h2 class="section-title">Today's Missions</h2>
+            <div class="task-list">
+                <div class="task-card" onclick="app.startListeningLab()">
+                    <div class="task-icon">🎧</div>
+                    <div class="task-info">
+                        <h3>Listening Lab</h3>
+                        <p>Focus on audio comprehension</p>
+                    </div>
+                    <div class="task-arrow">→</div>
+                </div>
+                <div class="task-card" onclick="app.startRepeatTask()">
+                    <div class="task-icon">🗣️</div>
+                    <div class="task-info">
+                        <h3>Repeat After Me</h3>
+                        <p>Pronunciation & Grammar</p>
+                    </div>
+                    <div class="task-arrow">→</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Listening Lab Screen -->
+        <div id="listening-lab" class="screen">
+            <header class="screen-header">
+                <button class="back-btn" onclick="app.goHome()">←</button>
+                <h2>Listening Lab</h2>
+            </header>
+
+            <div class="content-area">
+                <div class="instruction">Listen carefully to the phrase</div>
+
+                <div class="visual-cue-container glass" id="visual-cue-container">
+                    <!-- Blur overlay strictly controls Audio-First logic -->
+                    <div class="blurred-overlay" id="blur-overlay">
+                        <span class="listening-text">Audio playing...</span>
+                    </div>
+                    <h3 class="target-phrase" id="ll-target-phrase">De kat drinkt melk.</h3>
+                    <p class="grammar-hint" id="ll-grammar-hint">Notice: 'De' noun</p>
+                </div>
+
+                <div class="controls-area">
+                    <button class="play-btn" id="ll-play-btn" onclick="app.playListeningAudio()">
+                        ▶ Play Audio
+                    </button>
+
+                    <button class="primary-btn hidden" id="ll-next-btn" onclick="app.goHome()">
+                        Complete Task
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Repeat After Me Screen -->
+        <div id="repeat-task" class="screen">
+            <header class="screen-header">
+                <button class="back-btn" onclick="app.goHome()">←</button>
+                <h2>Repeat After Me</h2>
+            </header>
+
+            <div class="content-area">
+                <div class="instruction">Listen, then hold the mic to speak</div>
+
+                <div class="target-card glass">
+                    <h3 class="target-phrase" id="ram-target-phrase">Ik ga morgen naar het strand.</h3>
+                    <p class="translation" id="ram-translation">I am going to the beach tomorrow.</p>
+                </div>
+
+                <!-- Area for dynamic score and grammar feedback -->
+                <div class="feedback-area" id="ram-feedback-area">
+                    <!-- Feedback populates here -->
+                </div>
+
+                <div class="controls">
+                    <button class="icon-btn" onclick="app.playRepeatAudio()">🔊</button>
+                    <!-- Hold to speak interactions for Desktop and Mobile (touch) -->
+                    <button class="mic-btn" id="ram-mic-btn" onmousedown="audioEngine.startRecording()"
+                        onmouseup="audioEngine.stopRecording()" onmouseleave="audioEngine.stopRecording()"
+                        ontouchstart="audioEngine.startRecording(); event.preventDefault();"
+                        ontouchend="audioEngine.stopRecording(); event.preventDefault();">
+                        🎤
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modluar JS -->
+    <script src="grammarEngine.js"></script>
+    <script src="audioEngine.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
