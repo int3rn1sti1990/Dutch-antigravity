@@ -3,48 +3,40 @@ const app = {
         activeScreen: 'dashboard',
         llIndex: 0,
         ramIndex: 0,
-        // Array of tasks showing increasing complexity
-        listeningTasks: [
-            {
-                dutch: "De man en de vrouw.",
-                audioText: "De man en de vrouw.",
-                hint: "A1 (Basic): Just grasping vocabulary."
-            },
-            {
-                dutch: "Het is vandaag erg koud buiten.",
-                audioText: "Het is vandaag erg koud buiten.",
-                hint: "A1+ (Articles): Weather scenarios often use the 'Het' article."
-            },
-            {
-                dutch: "Gisteren ben ik naar de supermarkt gegaan.",
-                audioText: "Gisteren ben ik naar de supermarkt gegaan.",
-                hint: "A2 (Grammar): Notice the verb inversion after 'Gisteren' and perfect tense."
-            }
-        ],
-        repeatTasks: [
-            {
-                dutch: "Ik spreek een beetje Nederlands.",
-                english: "I speak a little Dutch.",
-                level: "A1",
-                hint: "Basic word order tracking."
-            },
-            {
-                dutch: "Morgen ga ik naar het strand.",
-                english: "Tomorrow I am going to the beach.",
-                level: "A2",
-                hint: "A2 Inversion: Verb ('ga') jumps before Subject ('ik') because the sentence starts with time ('Morgen')."
-            },
-            {
-                dutch: "Omdat het regent, blijf ik thuis.",
-                english: "Because it is raining, I am staying home.",
-                level: "B1",
-                hint: "B1 Subordinate Clauses: 'Omdat' pushes the verb 'regent' to the end of its clause."
-            }
-        ]
+        listeningTasks: [],
+        repeatTasks: []
     },
 
     init() {
-        console.log("Dutch Learning App Initialized - Scenarios Update");
+        this.generateDailyTasks();
+        console.log("Dutch Learning App Initialized - Daily Tasks Loaded");
+    },
+
+    generateDailyTasks() {
+        const today = new Date().toDateString();
+        const savedDate = localStorage.getItem('dutchApp_taskDate');
+
+        if (savedDate !== today) {
+            // Generate new tasks for today by shuffling the task bank
+            const shuffledListening = [...taskBank.listeningTasks].sort(() => 0.5 - Math.random());
+            const shuffledRepeat = [...taskBank.repeatTasks].sort(() => 0.5 - Math.random());
+
+            // Pick 20 tasks for each module daily
+            const dailyListening = shuffledListening.slice(0, 20);
+            const dailyRepeat = shuffledRepeat.slice(0, 20);
+
+            this.state.listeningTasks = dailyListening;
+            this.state.repeatTasks = dailyRepeat;
+
+            // Save to localStorage so they don't change until tomorrow
+            localStorage.setItem('dutchApp_taskDate', today);
+            localStorage.setItem('dutchApp_listening', JSON.stringify(dailyListening));
+            localStorage.setItem('dutchApp_repeat', JSON.stringify(dailyRepeat));
+        } else {
+            // Load from localStorage to keep tasks consistent for the day
+            this.state.listeningTasks = JSON.parse(localStorage.getItem('dutchApp_listening')) || [];
+            this.state.repeatTasks = JSON.parse(localStorage.getItem('dutchApp_repeat')) || [];
+        }
     },
 
     navigate(screenId) {
